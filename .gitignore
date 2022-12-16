@@ -1,0 +1,5 @@
+venv
+settings.ini
+data.db
+__pycache__
+log.txt
