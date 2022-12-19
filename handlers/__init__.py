@@ -1,4 +1,4 @@
-from handlers import start
 from handlers import back
-import do
-import finance
+from handlers import start
+import handlers.do
+import handlers.finance

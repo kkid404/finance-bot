@@ -12,4 +12,7 @@ async def cancel_handlers(message: types.Message, state: FSMContext, kb = Keyboa
     if current_state is None:
         return
     await state.finish()
-    await message.reply("Хорошо!", reply_markup=kb.start_kb())
+    await bot.send_message(
+        message.from_user.id,
+        "Хорошо!", 
+        reply_markup=kb.start_kb())

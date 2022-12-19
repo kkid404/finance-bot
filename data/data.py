@@ -85,7 +85,6 @@ class CallDb():
     def get_do_info(self, name):
         self.cur.execute("SELECT * FROM do WHERE name = ?", (name,))
         res = self.cur.fetchone()
-        print(res)
         return res
     
     def del_do(self, name):

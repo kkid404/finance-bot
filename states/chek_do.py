@@ -4,3 +4,4 @@ class ChekDoStorage(StatesGroup):
     state = State()
     date_to = State()
     date_from = State()
+    name = State()

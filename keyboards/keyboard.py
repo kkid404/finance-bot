@@ -16,7 +16,7 @@ class Keyboard:
         return keyboard
     
     def date_kb(self):
-        keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
+        keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=3)
         button1 = KeyboardButton("Сегодня")
         button2 = KeyboardButton("Завтра")
         button3 = KeyboardButton("Выбрать дату")
@@ -24,7 +24,7 @@ class Keyboard:
         return keyboard
     
     def state_kb(self):
-        keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
+        keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=3)
         button1 = KeyboardButton("Текущие")
         button2 = KeyboardButton("Выполненные")
         button3 = KeyboardButton("Удаленные")
@@ -56,7 +56,7 @@ class Keyboard:
 
     def completion_kb(self):
         keyboard = InlineKeyboardMarkup(row_width=2)
-        btn1 = InlineKeyboardButton("Выполнено", callback_data="DONE")
-        btn2 = InlineKeyboardButton("Выполнено", callback_data="DONE")
+        btn1 = InlineKeyboardButton("Выполнить", callback_data="DONE")
+        btn2 = InlineKeyboardButton("Удалить", callback_data="DELETE")
         keyboard.add(btn1, btn2)
         return keyboard
