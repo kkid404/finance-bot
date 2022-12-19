@@ -55,12 +55,14 @@ async def chek_date_do(message: types.Message, state: FSMContext, db = CallDb(),
                 "Дела на сегодня: ",
                 reply_markup=kb.do_kb(date, data['state'], message.from_user.id)
             )
+            await ChekDoStorage.name.set()
         else:
             await bot.send_message(
                 message.from_user.id,
                 "На сегодня дел нет",
                 reply_markup=kb.start_kb()
             )
+            await state.finish()
     
     if message.text == "Завтра":
         date = str(datetime.now().date())
@@ -73,13 +75,14 @@ async def chek_date_do(message: types.Message, state: FSMContext, db = CallDb(),
                 "Дела на завтра: ",
                 reply_markup=kb.do_kb(date, data['state'], message.from_user.id)
             )
+            await ChekDoStorage.name.set()
         else:
             await bot.send_message(
                 message.from_user.id,
                 "На завтра дел нет",
                 reply_markup=kb.start_kb()
             )
-    await ChekDoStorage.name.set()
+            await state.finish()
 
     if message.text == "Выбрать дату":
         await bot.send_message(
@@ -111,6 +114,7 @@ async def get_date_do(
             f"На {data['date']} дел нет",
             reply_markup=kb.start_kb()
         )
+        await state.finish()
     await ChekDoStorage.next()
 
 @dp.message_handler(state=[ChekDoStorage.name])
@@ -129,16 +133,3 @@ async def view_do(message: types.Message, db = CallDb(), kb = Keyboard()):
             message.from_user.id,
             "Дело не найдено"
         )
-
-@dp.callback_query_handler(text=["DONE", "DELETE"], state="*")
-async def do_done(callback_query: types.CallbackQuery, state: FSMContext, db = CallDb(), kb = Keyboard()):
-    states = dict(callback_query)['data']
-    text = dict(callback_query)['message']['text']
-    text = str(text).split("\n")[0]
-    db.set_state(states, text)
-    await bot.send_message(
-        callback_query.from_user.id,
-        f"Дело {'удалено.' if states == 'DELETE' else 'выполнено!'}",
-        reply_markup=kb.start_kb()
-    )
-    await state.finish()

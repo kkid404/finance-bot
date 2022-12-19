@@ -12,3 +12,19 @@ async def start(message: types.Message, kb = Keyboard()):
         "Привет! Я бот для учета бюджета.",
         reply_markup=kb.start_kb()
         )
+
+@dp.message_handler(text="Финансы")
+async def start(message: types.Message, kb = Keyboard()):
+    await bot.send_message(
+        message.from_user.id,
+        "Здесь можно добавить и посчитать расходы/доходы.",
+        reply_markup=kb.finance_kb()
+        )
+
+@dp.message_handler(text="Дела")
+async def start(message: types.Message, kb = Keyboard()):
+    await bot.send_message(
+        message.from_user.id,
+        "Здесь можно добавить и посмотреть дела.",
+        reply_markup=kb.do_first_kb()
+        )

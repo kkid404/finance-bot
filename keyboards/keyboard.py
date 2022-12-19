@@ -6,15 +6,27 @@ class Keyboard:
     
     def start_kb(self):
         keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+        button1 = KeyboardButton("Финансы")
+        button2 = KeyboardButton("Дела")
+        keyboard.add(button1, button2)
+        return keyboard
+    
+    def finance_kb(self):
+        keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
         button1 = KeyboardButton("Доход")
         button2 = KeyboardButton("Расход")
         button3 = KeyboardButton("Доходы за период")
         button4 = KeyboardButton("Расходы за период")
-        button5 = KeyboardButton("Добавить запись")
-        button6 = KeyboardButton("Посмотреть записи")
-        keyboard.add(button1, button2).add(button3, button4).add(button5, button6)
+        keyboard.add(button1, button2).add(button3, button4)
         return keyboard
     
+    def do_first_kb(self):
+        keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+        button1 = KeyboardButton("Добавить запись")
+        button2 = KeyboardButton("Посмотреть записи")
+        keyboard.add(button1, button2)
+        return keyboard
+
     def date_kb(self):
         keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=3)
         button1 = KeyboardButton("Сегодня")
