@@ -40,7 +40,7 @@ async def add_date(
     async with state.proxy() as data:
         data['date'] = date.strftime("%Y-%m-%d")
     if selected:
-        photo = open("./img/2.png", "rb")
+        photo = open("./img/happy.png", "rb")
         db.add_income(int(data["income"]), data['date'], callback_query.from_user.id)
         await bot.send_photo(
             callback_query.from_user.id, 

@@ -12,12 +12,19 @@ class CallDb():
                 
                 self.cur.execute("CREATE TABLE IF NOT EXISTS "
                 "income (id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                "value INTEGER NOT NULL, date DATE NOT NULL, telegram_id INTEGER)")
+                "value INTEGER NOT NULL, date DATE NOT NULL, "
+                "telegram_id INTEGER)")
                 
                 self.cur.execute("CREATE TABLE IF NOT EXISTS "
                 "expenses (id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                "name VARCHAR(255) NOT NULL, "
-                "value INTEGER NOT NULL, date DATE NOT NULL, telegram_id INTEGER)")
+                "name VARCHAR(255) NOT NULL, value INTEGER NOT NULL, "
+                "date DATE NOT NULL, telegram_id INTEGER)")
+            
+                self.cur.execute("CREATE TABLE IF NOT EXISTS "
+                "do (id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                "name VARCHAR(255) NOT NULL, date DATE NOT NULL, "
+                "time VARCHAR(5) NULL, telegram_id INTEGER NOT NULL, "
+                "state VARCHAR(6) NOT NULL)")
             
             self.base.commit()
 
@@ -51,3 +58,41 @@ class CallDb():
             value.append(r[1])
         res = list(zip(name, value))
         return {"value" : res, "sum" : sum(value)}
+    
+    def add_do(self, name, date, id):
+        self.cur.execute("INSERT INTO do (name, date, telegram_id, state) "
+        "VALUES (?, ?, ?, 'ACTIVE')", (name, date, id))
+        self.base.commit()
+    
+    def add_do_time(self, time, name):
+        self.cur.execute("UPDATE do SET time = ? WHERE name = ?",
+        (time, name))
+
+        self.base.commit()
+
+    def get_do_names(self, date, id, state):
+        self.cur.execute("SELECT name FROM do "
+        "WHERE (date = ?) "
+        "AND (telegram_id = ?) "
+        "AND (state =  ?)",
+        (date, id, state))
+        names = []
+        res = self.cur.fetchall()
+        for r in res:
+            names.append(r[0])
+        return names
+    
+    def get_do_info(self, name):
+        self.cur.execute("SELECT * FROM do WHERE name = ?", (name,))
+        res = self.cur.fetchone()
+        print(res)
+        return res
+    
+    def del_do(self, name):
+        self.cur.execute("DELETE do WHERE name = ?", (name,))
+        self.base.commit()
+    
+    def set_state(self, state, name):
+        self.cur.execute("UPDATE do SET state = ? WHERE name = ?",
+        (state, name))
+        self.base.commit()
