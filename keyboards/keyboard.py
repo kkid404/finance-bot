@@ -34,7 +34,7 @@ class Keyboard:
         button3 = KeyboardButton("Выбрать дату")
         keyboard.add(button1, button2, button3)
         return keyboard
-    
+        
     def state_kb(self):
         keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=3)
         button1 = KeyboardButton("Текущие")
@@ -71,4 +71,13 @@ class Keyboard:
         btn1 = InlineKeyboardButton("Выполнить", callback_data="DONE")
         btn2 = InlineKeyboardButton("Удалить", callback_data="DELETE")
         keyboard.add(btn1, btn2)
+        return keyboard
+    
+    def settings_do(self):
+        keyboard = InlineKeyboardMarkup(row_width=1)
+        btn1 = InlineKeyboardButton("Изменить дату", callback_data="date")
+        btn2 = InlineKeyboardButton("Изменить время", callback_data="time")
+        btn3 = InlineKeyboardButton("Сохранить", callback_data="save")
+        btn4 = InlineKeyboardButton("Отменить", callback_data="cancel")
+        keyboard.add(btn1, btn2, btn3, btn4)
         return keyboard
