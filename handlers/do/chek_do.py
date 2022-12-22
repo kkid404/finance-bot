@@ -102,11 +102,13 @@ async def get_date_do(
     selected, date = await SimpleCalendar().process_selection(callback_query, callback_data)
     async with state.proxy() as data:
         data['date'] = date.strftime("%Y-%m-%d")
-    if len(db.get_do_names(data['date'], callback_query.from_user.id, data['state'])) != 0:   
+    print(data) 
+    if len(db.get_do_names(data['date'], callback_query.from_user.id, data['state'])) != 0:  
+        
         await bot.send_message(
             callback_query.from_user.id,
             f"Дела на {data['date']}",
-            reply_markup=kb.do_kb(date['date'], data['state'], callback_query.from_user.id)
+            reply_markup=kb.do_kb(data['date'], data['state'], callback_query.from_user.id)
         )
     else:
         await bot.send_message(

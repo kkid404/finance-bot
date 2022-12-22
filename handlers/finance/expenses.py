@@ -13,7 +13,7 @@ from aiogram_calendar import simple_cal_callback, SimpleCalendar
 async def expenses(message: types.Message, kb = Keyboard()):
     await bot.send_message(
         message.from_user.id,
-        "Введи куда потрачены деньги: ",
+        "Введи сколько потрачено денег: ",
         reply_markup=kb.back_kb()
     )
     await ExpensesStorage.name.set()
@@ -21,17 +21,17 @@ async def expenses(message: types.Message, kb = Keyboard()):
 @dp.message_handler(state=ExpensesStorage.name)
 async def add_expenses_name(message: types.Message, state: FSMContext, kb = Keyboard(), db = CallDb()):
     async with state.proxy() as data:
-        data['name'] = message.text
+        data['expenses'] = message.text
     await ExpensesStorage.next()
     await bot.send_message(
         message.from_user.id,
-        "Введи потраченную сумму: "
+        "Введи куда были потрачены деньги: "
     )
 
 @dp.message_handler(state=ExpensesStorage.expenses)
 async def add_expenses(message: types.Message, state: FSMContext, kb = Keyboard(), db = CallDb()):
     async with state.proxy() as data:
-        data['expenses'] = message.text
+        data['name'] = message.text
     try:
         await ExpensesStorage.next()
         await bot.send_message(
