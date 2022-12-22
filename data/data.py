@@ -7,26 +7,26 @@ class CallDb():
         self.cur = self.base.cursor()
 
     def sql_start(self):
-            if self.base:
-                print("Data successfully connect!")
-                
-                self.cur.execute("CREATE TABLE IF NOT EXISTS "
-                "income (id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                "value INTEGER NOT NULL, date DATE NOT NULL, "
-                "telegram_id INTEGER)")
-                
-                self.cur.execute("CREATE TABLE IF NOT EXISTS "
-                "expenses (id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                "name VARCHAR(255) NOT NULL, value INTEGER NOT NULL, "
-                "date DATE NOT NULL, telegram_id INTEGER)")
+        if self.base:
+            print("Data successfully connect!")
             
-                self.cur.execute("CREATE TABLE IF NOT EXISTS "
-                "do (id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                "name VARCHAR(255) NOT NULL, date DATE NOT NULL, "
-                "time VARCHAR(5) NULL, telegram_id INTEGER NOT NULL, "
-                "state VARCHAR(6) NOT NULL)")
+            self.cur.execute("CREATE TABLE IF NOT EXISTS "
+            "income (id INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "value INTEGER NOT NULL, date DATE NOT NULL, "
+            "telegram_id INTEGER)")
             
-            self.base.commit()
+            self.cur.execute("CREATE TABLE IF NOT EXISTS "
+            "expenses (id INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "name VARCHAR(255) NOT NULL, value INTEGER NOT NULL, "
+            "date DATE NOT NULL, telegram_id INTEGER)")
+        
+            self.cur.execute("CREATE TABLE IF NOT EXISTS "
+            "do (id INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "name VARCHAR(255) NOT NULL, date DATE NOT NULL, "
+            "time VARCHAR(5) NULL, telegram_id INTEGER NOT NULL, "
+            "state VARCHAR(6) NOT NULL)")
+        
+        self.base.commit()
 
     def add_income(self, income, date, id):
         self.cur.execute("INSERT INTO income (value, date, telegram_id)"
@@ -94,4 +94,9 @@ class CallDb():
     def set_state(self, state, name):
         self.cur.execute("UPDATE do SET state = ? WHERE name = ?",
         (state, name))
+        self.base.commit()
+
+    def update_date(self, name, date):
+        self.cur.execute("UPDATE do SET date = ? WHERE name = ?",
+        (date, name))
         self.base.commit()

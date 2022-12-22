@@ -16,3 +16,10 @@ async def cancel_handlers(message: types.Message, state: FSMContext, kb = Keyboa
         message.from_user.id,
         "Хорошо!", 
         reply_markup=kb.start_kb())
+
+@dp.message_handler(Text(equals='На главную', ignore_case=True))
+async def cancel_handlers(message: types.Message, state: FSMContext, kb = Keyboard(), db = CallDb()):
+    await bot.send_message(
+        message.from_user.id,
+        "Хорошо!", 
+        reply_markup=kb.start_kb())

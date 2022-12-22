@@ -17,14 +17,16 @@ class Keyboard:
         button2 = KeyboardButton("Расход")
         button3 = KeyboardButton("Доходы за период")
         button4 = KeyboardButton("Расходы за период")
-        keyboard.add(button1, button2).add(button3, button4)
+        button5 = KeyboardButton("На главную")
+        keyboard.add(button1, button2).add(button3, button4).add(button5)
         return keyboard
     
     def do_first_kb(self):
         keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
         button1 = KeyboardButton("Добавить запись")
         button2 = KeyboardButton("Посмотреть записи")
-        keyboard.add(button1, button2)
+        button3 = KeyboardButton("На главную")
+        keyboard.add(button1, button2).add(button3)
         return keyboard
 
     def date_kb(self):
@@ -32,14 +34,15 @@ class Keyboard:
         button1 = KeyboardButton("Сегодня")
         button2 = KeyboardButton("Завтра")
         button3 = KeyboardButton("Выбрать дату")
-        keyboard.add(button1, button2, button3)
+        button4 = KeyboardButton("Назад")
+        keyboard.add(button1, button2, button3).add(button4)
         return keyboard
         
     def state_kb(self):
-        keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=3)
+        keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
         button1 = KeyboardButton("Текущие")
         button2 = KeyboardButton("Выполненные")
-        button3 = KeyboardButton("Удаленные")
+        button3 = KeyboardButton("Назад")
         keyboard.add(button1, button2, button3)
         return keyboard
 
@@ -67,10 +70,11 @@ class Keyboard:
         return keyboard
 
     def completion_kb(self):
-        keyboard = InlineKeyboardMarkup(row_width=2)
+        keyboard = InlineKeyboardMarkup(row_width=1)
         btn1 = InlineKeyboardButton("Выполнить", callback_data="DONE")
         btn2 = InlineKeyboardButton("Удалить", callback_data="DELETE")
-        keyboard.add(btn1, btn2)
+        btn3 = InlineKeyboardButton("Перенести", callback_data="move")
+        keyboard.add(btn1, btn2, btn3)
         return keyboard
     
     def settings_do(self):

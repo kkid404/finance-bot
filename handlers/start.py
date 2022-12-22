@@ -9,7 +9,7 @@ from keyboards import Keyboard
 async def start(message: types.Message, kb = Keyboard()):
     await bot.send_message(
         message.from_user.id,
-        "Привет! Я бот для учета бюджета.",
+        "Привет! Я бот ведения бюджета и планов.",
         reply_markup=kb.start_kb()
         )
 
