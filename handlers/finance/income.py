@@ -5,7 +5,7 @@ from aiogram.dispatcher import FSMContext
 
 from loader import dp, bot
 from keyboards import Keyboard
-from data import CallDb
+from data import add_income
 from states import IncomeStorage
 from aiogram_calendar import simple_cal_callback, SimpleCalendar
 
@@ -20,7 +20,7 @@ async def income(message: types.Message, kb = Keyboard()):
     await IncomeStorage.income.set()
 
 @dp.message_handler(state=IncomeStorage.income)
-async def add_income(message: types.Message, state: FSMContext, kb = Keyboard(), db = CallDb()):
+async def add_income_handler(message: types.Message, state: FSMContext, kb = Keyboard()):
     async with state.proxy() as data:
         data['income'] = message.text
     await bot.send_message(
@@ -34,17 +34,16 @@ async def add_date(
     callback_query: types.CallbackQuery, 
     callback_data: dict, 
     state: FSMContext, 
-    db = CallDb(),
     kb = Keyboard()):
     selected, date = await SimpleCalendar().process_selection(callback_query, callback_data)
     async with state.proxy() as data:
         data['date'] = date.strftime("%Y-%m-%d")
     if selected:
         photo = open("./img/happy.png", "rb")
-        db.add_income(int(data["income"]), data['date'], callback_query.from_user.id)
         await bot.send_photo(
             callback_query.from_user.id, 
             photo=photo, 
             caption="Доход добавлен", 
             reply_markup=kb.start_kb())
         await state.finish()
+        add_income(int(data["income"]), data['date'], callback_query.from_user.id)

@@ -4,11 +4,11 @@ from aiogram.utils import executor
 
 import handlers
 from loader import dp
-from data import CallDb
+from data import db
 
-async def on_start(event, db = CallDb()):
+async def on_start(event):
     print("Bot has started")
-    db.sql_start()
+    db.generate_mapping(create_tables=True)
     logging.basicConfig(level=logging.ERROR, filename="log.txt")
 
 if __name__ == "__main__":

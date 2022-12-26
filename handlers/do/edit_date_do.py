@@ -32,11 +32,10 @@ async def set_date_do(
         data['date'] = date.strftime("%Y-%m-%d")
     message = data['message'].split("\n")
     await bot.edit_message_text(
-        f"<b>{message[0]}</b>\n\n"
-        f"Дата: {data['date']}\n\n"
-        f"{message[4]}",
+        f"Дело перенесено!",
         callback.from_user.id,
         data['message_id'],
-        reply_markup= kb.completion_kb()
+        reply_markup= kb.start_kb()
     )
     db.update_date(message[0], data['date'])
+    await state.finish()

@@ -8,6 +8,10 @@ config = configparser.ConfigParser()
 config.read("settings.ini")
 
 TOKEN = config["BOT"]["TOKEN"]
+HOST = config["DB"]["HOST"]
+USERNAME = config["DB"]["USERNAME"]
+PASSWORD = config["DB"]["PASSWORD"]
+DATABASE = config["DB"]["DATABASE"]
 
 storage = MemoryStorage()
 

@@ -4,8 +4,9 @@ from aiogram_calendar import simple_cal_callback, SimpleCalendar
 
 from loader import dp, bot
 from keyboards import Keyboard
-from data import CallDb
+from data import select_income
 from states import IncomePeriodStorage
+from datetime import datetime
 
 @dp.message_handler(text="Доходы за период")
 async def income(message: types.Message, kb = Keyboard()):
@@ -24,7 +25,7 @@ async def process_simple_calendar(
     kb = Keyboard()):
     selected, date = await SimpleCalendar().process_selection(callback_query, callback_data)
     async with state.proxy() as data:
-        data['date_to'] = date.strftime("%Y-%m-%d")
+        data['date_to'] = datetime.strftime(date, "%Y-%m-%d")
     if selected:
         await bot.send_message(
             callback_query.from_user.id,
@@ -38,13 +39,13 @@ async def process_simple_cal(
     callback_query: types.CallbackQuery, 
     state: FSMContext, 
     callback_data: dict,
-    kb = Keyboard(),
-    db = CallDb()):
+    kb = Keyboard()
+    ):
     selected, date = await SimpleCalendar().process_selection(callback_query, callback_data)
     async with state.proxy() as data:
-            data['date_from'] = date.strftime("%Y-%m-%d")
+            data['date_from'] = datetime.strftime(date, "%Y-%m-%d")
     if selected:
-        sum = db.select_income(data['date_to'], data['date_from'], callback_query.from_user.id)
+        sum = select_income(data['date_to'], data['date_from'], callback_query.from_user.id)
         await bot.send_message(
             callback_query.from_user.id,
             f'Сумма дохода за период:\n{data["date_to"]} - {data["date_from"]}\n{sum} рублей!',

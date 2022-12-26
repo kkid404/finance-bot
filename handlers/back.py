@@ -4,10 +4,9 @@ from aiogram.dispatcher.filters import Text
 
 from loader import dp, bot
 from keyboards import Keyboard
-from data import CallDb
 
 @dp.message_handler(Text(equals='Назад', ignore_case=True), state="*")
-async def cancel_handlers(message: types.Message, state: FSMContext, kb = Keyboard(), db = CallDb()):
+async def cancel_handlers(message: types.Message, state: FSMContext, kb = Keyboard()):
     current_state = await state.get_state()
     if current_state is None:
         return
@@ -18,7 +17,7 @@ async def cancel_handlers(message: types.Message, state: FSMContext, kb = Keyboa
         reply_markup=kb.start_kb())
 
 @dp.message_handler(Text(equals='На главную', ignore_case=True))
-async def cancel_handlers(message: types.Message, state: FSMContext, kb = Keyboard(), db = CallDb()):
+async def cancel_handlers(message: types.Message, state: FSMContext, kb = Keyboard()):
     await bot.send_message(
         message.from_user.id,
         "Хорошо!", 
