@@ -5,13 +5,13 @@ from aiogram.dispatcher import FSMContext
 
 from loader import dp, bot
 from keyboards import Keyboard
-from data import CallDb
+from data import add_do, add_time
 from states import AddDoStorage
 from aiogram_calendar import simple_cal_callback, SimpleCalendar
 from aiogram.utils.exceptions import MessageCantBeEdited
 
 @dp.message_handler(text="Добавить запись")
-async def add_do(message: types.Message, kb = Keyboard()):
+async def add_do_handler(message: types.Message, kb = Keyboard()):
     await bot.send_message(
         message.from_user.id,
         "Напиши название дела: ",
@@ -52,7 +52,7 @@ async def add_do_date(
     state: FSMContext, 
     callback_data: dict,
     kb = Keyboard(),
-    db = CallDb()):
+    ):
     selected, date = await SimpleCalendar().process_selection(callback, callback_data)
     if selected:
         async with state.proxy() as data:
@@ -89,7 +89,7 @@ async def add_do_time(
     message: types.Message, 
     state: FSMContext, 
     kb = Keyboard(), 
-    db = CallDb()):
+    ):
     async with state.proxy() as data:
         data['time'] = message.text
 
@@ -102,12 +102,12 @@ async def add_do_time(
         reply_markup= kb.settings_do())
 
 @dp.callback_query_handler(text="save", state="*")
-async def save_do(callback: types.CallbackQuery, state: FSMContext, db = CallDb(), kb = Keyboard()):
+async def save_do(callback: types.CallbackQuery, state: FSMContext, kb = Keyboard()):
     async with state.proxy() as data:
         pass
-    db.add_do(data['name'], data['date'], callback.from_user.id)
+    res = add_do(data['name'], str(data['date']), "ACTIVE", callback.from_user.id)
     if 'time' in data:
-        db.add_do_time(data['time'], data['name'])
+        add_time(res, data['time'])
     await bot.delete_message(
         callback.from_user.id, 
         data['message'])

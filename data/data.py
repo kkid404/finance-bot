@@ -9,7 +9,3 @@ settings = dict(
 )
 
 db = Database(**settings['mysql'])
-
-
-
-
