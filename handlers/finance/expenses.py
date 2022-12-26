@@ -5,9 +5,9 @@ from aiogram.dispatcher import FSMContext
 
 from loader import dp, bot
 from keyboards import Keyboard
-from data import CallDb
 from states import ExpensesStorage
 from aiogram_calendar import simple_cal_callback, SimpleCalendar
+from data import add_expenses
 
 @dp.message_handler(text="Расход")
 async def expenses(message: types.Message, kb = Keyboard()):
@@ -19,7 +19,7 @@ async def expenses(message: types.Message, kb = Keyboard()):
     await ExpensesStorage.name.set()
 
 @dp.message_handler(state=ExpensesStorage.name)
-async def add_expenses_name(message: types.Message, state: FSMContext, kb = Keyboard(), db = CallDb()):
+async def add_expenses_name(message: types.Message, state: FSMContext, kb = Keyboard()):
     async with state.proxy() as data:
         data['expenses'] = message.text
     await ExpensesStorage.next()
@@ -29,7 +29,7 @@ async def add_expenses_name(message: types.Message, state: FSMContext, kb = Keyb
     )
 
 @dp.message_handler(state=ExpensesStorage.expenses)
-async def add_expenses(message: types.Message, state: FSMContext, kb = Keyboard(), db = CallDb()):
+async def add_expenses_handler(message: types.Message, state: FSMContext, kb = Keyboard()):
     async with state.proxy() as data:
         data['name'] = message.text
     try:
@@ -52,14 +52,13 @@ async def add_date(
     callback_query: types.CallbackQuery, 
     callback_data: dict, 
     state: FSMContext, 
-    db = CallDb(),
     kb = Keyboard()):
     selected, date = await SimpleCalendar().process_selection(callback_query, callback_data)
     async with state.proxy() as data:
         data['date'] = date.strftime("%Y-%m-%d")
     if selected:
         photo = open("./img/sad.png", "rb")
-        db.add_expenses(data['name'], int(data["expenses"]), data['date'], callback_query.from_user.id)
+        add_expenses(int(data["expenses"]), data['name'], data['date'], callback_query.from_user.id)
         await bot.send_photo(
             callback_query.from_user.id, 
             photo=photo, 
