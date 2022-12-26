@@ -1,6 +1,6 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
 
-# from data import CallDb
+from data import get_do_names
 
 class Keyboard:
     
@@ -46,15 +46,15 @@ class Keyboard:
         keyboard.add(button1, button2, button3)
         return keyboard
 
-    # def do_kb(self, date, state, id,  db = CallDb(),):
-    #     keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-    #     res = db.get_do_names(date, id, state)
-    #     for r in res:
-    #         button1 = KeyboardButton(r)
-    #         keyboard.add(button1)
-    #     btn2 = KeyboardButton("Назад")
-    #     keyboard.add(btn2)
-    #     return keyboard  
+    def do_kb(self, date, state, id):
+        keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
+        res = get_do_names(date, id, state)
+        for r in res:
+            button1 = KeyboardButton(r)
+            keyboard.add(button1)
+        btn2 = KeyboardButton("Назад")
+        keyboard.add(btn2)
+        return keyboard  
 
     def yes_no_kb(self):
         keyboard = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)

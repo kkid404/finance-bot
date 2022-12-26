@@ -21,3 +21,26 @@ def add_do(name, date, state, user):
 def add_time(id, time):
     do = Do.get(id=id)
     do.time = time
+
+@db_session
+def get_do_names(date, user, state):
+    tasks = Do.select(lambda d: d.user == user and d.date == date and d.state == state)
+    names = []
+    for task in tasks:
+        res = task.to_dict()
+        names.append(res["name"])
+    return names
+
+@db_session
+def get_do_info(name):
+    do = select((d.name, d.date, d.time) for d in Do if d.name == name).get()
+    return do
+
+@db_session
+def set_state(state, name):
+    do = Do.get(name=name, state="ACTIVE")
+    do.state = state
+
+@db_session
+def del_do(name):
+    do = delete(d for d in Do if d.name == name and d.state == "ACTIVE")
