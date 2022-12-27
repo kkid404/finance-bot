@@ -3,12 +3,12 @@ from aiogram.dispatcher import FSMContext
 
 from loader import dp, bot
 from keyboards import Keyboard
-from data import CallDb
+from data import edit_date_do
 from aiogram_calendar import simple_cal_callback, SimpleCalendar
 from states import DateStorage
 
 @dp.callback_query_handler(text=["move"], state="*")
-async def edit_date_do(callback: types.CallbackQuery, state: FSMContext):
+async def edit_date_do_handler(callback: types.CallbackQuery, state: FSMContext):
     async with state.proxy() as data:
         data['message'] = callback.message.text
         data['message_id'] = callback.message.message_id
@@ -26,16 +26,19 @@ async def set_date_do(
     state: FSMContext, 
     callback_data: dict,
     kb = Keyboard(),
-    db = CallDb()):
+    ):
     selected, date = await SimpleCalendar().process_selection(callback, callback_data)
     async with state.proxy() as data:
         data['date'] = date.strftime("%Y-%m-%d")
     message = data['message'].split("\n")
-    await bot.edit_message_text(
-        f"Дело перенесено!",
+    await bot.delete_message(
         callback.from_user.id,
-        data['message_id'],
+        data['message_id']
+    )
+    await bot.send_message(
+        callback.from_user.id,
+        f"Дело перенесено!",
         reply_markup= kb.start_kb()
     )
-    db.update_date(message[0], data['date'])
+    edit_date_do(data['date'], message[0])
     await state.finish()

@@ -32,8 +32,8 @@ def get_do_names(date, user, state):
     return names
 
 @db_session
-def get_do_info(name):
-    do = select((d.name, d.date, d.time) for d in Do if d.name == name).get()
+def get_do_info(name, date):
+    do = select((d.name, d.date, d.time) for d in Do if d.name == name and d.date == str(date)).get()
     return do
 
 @db_session
@@ -44,3 +44,8 @@ def set_state(state, name):
 @db_session
 def del_do(name):
     do = delete(d for d in Do if d.name == name and d.state == "ACTIVE")
+
+@db_session
+def edit_date_do(date, name):
+    do = Do.get(name=name, state="ACTIVE")
+    do.date = date

@@ -55,6 +55,8 @@ async def chek_date_do(message: types.Message, state: FSMContext, kb = Keyboard(
                 "Дела на сегодня: ",
                 reply_markup=kb.do_kb(str(date), data['state'], message.from_user.id)
             )
+            async with state.proxy() as data:
+                data['date'] = date
             await ChekDoStorage.name.set()
         else:
             await bot.send_message(
@@ -75,6 +77,8 @@ async def chek_date_do(message: types.Message, state: FSMContext, kb = Keyboard(
                 "Дела на завтра: ",
                 reply_markup=kb.do_kb(date, data['state'], message.from_user.id)
             )
+            async with state.proxy() as data:
+                data['date'] = date
             await ChekDoStorage.name.set()
         else:
             await bot.send_message(
@@ -122,8 +126,9 @@ async def get_date_do(
 async def view_do(message: types.Message, state: FSMContext, kb = Keyboard()):
     async with state.proxy() as data:
         pass
-    if get_do_info(message.text):
-        res = get_do_info(message.text)
+    print(data['date'])
+    if get_do_info(message.text, data['date']):
+        res = get_do_info(message.text, data['date'])
         if data["state"] == "ACTIVE":
             keyb = kb.completion_kb()
         else:
