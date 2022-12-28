@@ -115,7 +115,7 @@ async def save_do(callback: types.CallbackQuery, state: FSMContext, kb = Keyboar
     await bot.send_message(
         callback.from_user.id,
         "Дело добавлено!",
-        reply_markup=kb.start_kb()
+        reply_markup=kb.do_first_kb()
     )
 
 @dp.callback_query_handler(text="cancel", state="*")
