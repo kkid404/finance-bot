@@ -7,6 +7,7 @@ class Expenses(db.Entity):
     name = Required(str)
     date = Required(str, 10)
     user = Required(str)
+    category = Optional(str)
 
 @db_session
 def add_expenses(sum, name, date, user):

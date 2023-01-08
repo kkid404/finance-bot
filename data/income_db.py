@@ -6,6 +6,8 @@ class Income(db.Entity):
     sum = Required(int)
     date = Required(str, 10) # Pony не может в between типа date
     user = Required(str)
+    category = Optional(str)
+
 
 @db_session
 def add_income(sum, date, user):
