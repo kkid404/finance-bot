@@ -70,7 +70,7 @@ class Keyboard:
         keyboard.add(btn1, btn2, btn3, btn4)
         return keyboard
     
-    def settings_funance(self):
+    def settings_finance(self):
         keyboard = InlineKeyboardMarkup(row_width=1)
         btn1 = InlineKeyboardButton("Изменить дату", callback_data="date_finance")
         btn2 = InlineKeyboardButton("Добавить категорию", callback_data="category")

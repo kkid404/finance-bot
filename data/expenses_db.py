@@ -10,8 +10,8 @@ class Expenses(db.Entity):
     category = Optional(str)
 
 @db_session
-def add_expenses(sum, name, date, user):
-    res = Expenses(sum=sum, name=name, date=date, user=str(user))
+def add_expenses(sum, name, date, user, category):
+    res = Expenses(sum=sum, name=name, date=date, user=str(user), category=category)
 
 @db_session
 def select_expenses(date_to, date_from, user):
