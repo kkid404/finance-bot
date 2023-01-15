@@ -1,6 +1,6 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
 
-from data import get_do_names
+from data import get_do_names, get_category
 
 class Keyboard:
     
@@ -68,4 +68,23 @@ class Keyboard:
         btn3 = InlineKeyboardButton("Сохранить", callback_data="save")
         btn4 = InlineKeyboardButton("Отменить", callback_data="cancel")
         keyboard.add(btn1, btn2, btn3, btn4)
+        return keyboard
+    
+    def settings_funance(self):
+        keyboard = InlineKeyboardMarkup(row_width=1)
+        btn1 = InlineKeyboardButton("Изменить дату", callback_data="date_finance")
+        btn2 = InlineKeyboardButton("Добавить категорию", callback_data="category")
+        btn3 = InlineKeyboardButton("Сохранить", callback_data="save_finance")
+        btn4 = InlineKeyboardButton("Отменить", callback_data="cancel_finance")
+        keyboard.add(btn1, btn2, btn3, btn4)
+        return keyboard
+    
+    def category_finance(self, id):
+        keyboard = InlineKeyboardMarkup(row_width=1)
+        button = InlineKeyboardButton("Добавить новую категорию", callback_data="add_category")
+        keyboard.add(button)
+        btns = get_category(id)
+        for btn in btns:
+            button = InlineKeyboardButton(btn, callback_data=btn)
+            keyboard.add(button)
         return keyboard

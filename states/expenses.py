@@ -4,3 +4,4 @@ class ExpensesStorage(StatesGroup):
     name = State()
     expenses= State()
     date = State()
+    category = State()
