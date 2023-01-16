@@ -10,8 +10,8 @@ class Income(db.Entity):
 
 
 @db_session
-def add_income(sum, date, user):
-    res = Income(sum=sum, date=date, user=str(user))
+def add_income(sum, date, user, category):
+    res = Income(sum=sum, date=date, user=str(user), category=category)
     # commit() работает без него
 
 @db_session

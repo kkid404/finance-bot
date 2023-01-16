@@ -4,15 +4,16 @@ from aiogram_calendar import simple_cal_callback, SimpleCalendar
 
 from loader import dp, bot
 from keyboards import Keyboard
-from states import ExpensesStorage, CategoryStorage
-from data import select_expenses, add_category, get_category, add_expenses
+from data import get_category, add_expenses
+from states import ExpensesStorage
 
-@dp.callback_query_handler(text="save_finance", state="*")
+@dp.callback_query_handler(text="save_expenses", state="*")
 async def save_expenses(callback: types.CallbackQuery, state: FSMContext, kb = Keyboard()):
     async with state.proxy() as data:
         pass
     add_expenses(int(data["expenses"]), data['name'], str(data['date']), callback.from_user.id, data['category'])
     photo = open("./img/sad.png", "rb")
+    await bot.delete_message(callback.from_user.id, data["message"])
     await bot.send_photo(
         callback.from_user.id, 
         photo=photo, 
@@ -20,7 +21,7 @@ async def save_expenses(callback: types.CallbackQuery, state: FSMContext, kb = K
         reply_markup=kb.start_kb())
     await state.finish()
 
-@dp.callback_query_handler(text="category", state="*")
+@dp.callback_query_handler(text="category_expenses", state="*")
 async def add_category_func(callback: types.CallbackQuery, state: FSMContext, kb = Keyboard()):
     async with state.proxy() as data:
         pass
@@ -31,7 +32,7 @@ async def add_category_func(callback: types.CallbackQuery, state: FSMContext, kb
         reply_markup=kb.category_finance(callback.from_user.id)
     )
 
-@dp.callback_query_handler(state="*")
+@dp.callback_query_handler(state=ExpensesStorage)
 async def set_category(callback: types.CallbackQuery, state: FSMContext, kb = Keyboard()):
     res = callback["data"]
     if res in get_category(callback.from_user.id):
@@ -42,6 +43,6 @@ async def set_category(callback: types.CallbackQuery, state: FSMContext, kb = Ke
             f"<b>Дата:</b>\n{data['date']}\n\n<b>Категория:</b>\n{data['category']}",
             callback.from_user.id,
             data['message'],
-            reply_markup=kb.settings_finance()
+            reply_markup=kb.settings_expenses()
         )
 
