@@ -9,7 +9,7 @@ from keyboards import Keyboards_do as Keyboard
 from states import ChekDoStorage
 from data import get_do_names, get_do_info
 from aiogram_calendar import simple_cal_callback, SimpleCalendar
-
+from utils import get_key
 
 @dp.message_handler(text="Посмотреть записи")
 async def chek_do(message: types.Message, kb = Keyboard()):
@@ -47,72 +47,36 @@ async def chek_state_do(message: types.Message, state: FSMContext, kb = Keyboard
 async def chek_date_do(message: types.Message, state: FSMContext, kb = Keyboard()):
     async with state.proxy() as data:
         pass
-    if message.text == "Вчера":
-        date = str(datetime.now().date())
-        date_obj = dtparser.parse(date)
-        date_obj -= timedelta(days=1)
-        date = date_obj.strftime('%Y-%m-%d')
-        if len(get_do_names(date, message.from_user.id, data['state'])) != 0:
-            await bot.send_message(
-                message.from_user.id,
-                "Дела на вчера: ",
-                reply_markup=kb.do_kb(date, data['state'], message.from_user.id)
-            )
-            async with state.proxy() as data:
-                data['date'] = date
-                data["id"] = get_do_names(data['date'], message.from_user.id, data["state"])
-            await ChekDoStorage.name.set()
-        else:
-            await bot.send_message(
-                message.from_user.id,
-                "На вчера дел нет",
-                reply_markup=kb.start_kb()
-            )
-            await state.finish()
     
     if message.text == "Сегодня":
-        date = datetime.now().date()
-        if len(get_do_names(str(date), message.from_user.id, data['state'])) != 0:
-            await bot.send_message(
-                message.from_user.id,
-                "Дела на сегодня: ",
-                reply_markup=kb.do_kb(str(date), data['state'], message.from_user.id)["kb"]
-            )
-            async with state.proxy() as data:
-                data['date'] = date
-                data["id"] = get_do_names(data['date'], message.from_user.id, data["state"])
-            await ChekDoStorage.name.set()
-        else:
-            await bot.send_message(
-                message.from_user.id,
-                "На сегодня дел нет",
-                reply_markup=kb.start_kb()
-            )
-            await state.finish()
-    
-    if message.text == "Завтра":
+        date_obj = str(datetime.now().date())
+    elif message.text == "Завтра":
         date = str(datetime.now().date())
         date_obj = dtparser.parse(date)
         date_obj += timedelta(days=1)
-        date = date_obj.strftime('%Y-%m-%d')
-        if len(get_do_names(date, message.from_user.id, data['state'])) != 0:
-            await bot.send_message(
-                message.from_user.id,
-                "Дела на завтра: ",
-                reply_markup=kb.do_kb(date, data['state'], message.from_user.id)
-            )
-            async with state.proxy() as data:
-                data['date'] = date
-                data["id"] = get_do_names(data['date'], message.from_user.id, data["state"])
-            await ChekDoStorage.name.set()
-        else:
-            await bot.send_message(
-                message.from_user.id,
-                "На завтра дел нет",
-                reply_markup=kb.start_kb()
-            )
-            await state.finish()
-
+    elif message.text == "Вчера":
+        date = str(datetime.now().date())
+        date_obj = dtparser.parse(date)
+        date_obj -= timedelta(days=1)
+        
+    if len(list(get_do_names(date_obj, message.from_user.id, data['state']).values())) != 0:
+        await bot.send_message(
+            message.from_user.id,
+            f"Дела на {message.text}: ",
+            reply_markup=kb.do_kb(date_obj, data['state'], message.from_user.id)
+        )
+        async with state.proxy() as data:
+            data['date'] = date_obj
+            data["id"] = get_do_names(data['date'], message.from_user.id, data["state"])
+        await ChekDoStorage.name.set()
+    else:
+        await bot.send_message(
+            message.from_user.id,
+            f"На {message.text} дел нет",
+            reply_markup=kb.start_kb()
+        )
+        await state.finish()
+    
     if message.text == "Выбрать дату":
         await bot.send_message(
             message.from_user.id,
@@ -151,9 +115,9 @@ async def get_date_do(
 async def view_do(message: types.Message, state: FSMContext, kb = Keyboard()):
     async with state.proxy() as data:
         pass
-    print(data['date'])
-    if get_do_info(message.text, data['date']):
-        res = get_do_info(message.text, data['date'])
+    res = get_key(data["id"], message.text)
+    if get_do_info(res):
+        res = get_do_info(res)
         if data["state"] == "ACTIVE":
             keyb = kb.completion_kb()
         else:

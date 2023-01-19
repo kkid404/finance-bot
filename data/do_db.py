@@ -31,7 +31,8 @@ def get_do_names(date, user, state):
         res = task.to_dict()
         names.append(res["name"])
         ids.append(res["id"])
-    return {ids : names}
+    res = dict(zip(ids, names))
+    return res
 
 @db_session
 def get_do_info(id):

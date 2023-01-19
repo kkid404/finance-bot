@@ -12,8 +12,10 @@ class Keyboards_do(Keyboard):
 
     def date_kb(self):
         keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=3)
-        btns = ["Вчера", "Сегодня", "Завтра", "Выбрать дату", "Назад"]
-        keyboard.add(*btns)
+        btns = ["Вчера", "Сегодня", "Завтра"]
+        btn_date = KeyboardButton("Выбрать дату")
+        btn_back = KeyboardButton("Назад")
+        keyboard.add(*btns).add(btn_date).add(btn_back)
         return keyboard
         
     def state_kb(self):
@@ -25,10 +27,9 @@ class Keyboards_do(Keyboard):
     def do_kb(self, date, state, id):
         keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
         btns = get_do_names(date, id, state)
-        print(btns.values())
         btn2 = KeyboardButton("Назад")
-        # keyboard.add(*btns.values, btn2)
-        # return {"kb" : keyboard, "id" : btns["id"]}  
+        keyboard.add(*list(btns.values()), btn2)
+        return keyboard
 
     def yes_no_kb(self):
         keyboard = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
