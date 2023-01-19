@@ -40,13 +40,13 @@ def get_do_info(id):
     return do
 
 @db_session
-def set_state(state, name):
-    do = Do.get(name=name, state="ACTIVE")
+def set_state(state, id):
+    do = Do.get(id=id, state="ACTIVE")
     do.state = state
 
 @db_session
-def del_do(name):
-    do = delete(d for d in Do if d.name == name and d.state == "ACTIVE")
+def del_do(id):
+    do = delete(d for d in Do if d.id == id and d.state == "ACTIVE")
 
 @db_session
 def edit_date_do(date, name):

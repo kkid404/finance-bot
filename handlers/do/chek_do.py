@@ -114,10 +114,9 @@ async def get_date_do(
 @dp.message_handler(state=[ChekDoStorage.name])
 async def view_do(message: types.Message, state: FSMContext, kb = Keyboard()):
     async with state.proxy() as data:
-        pass
-    res = get_key(data["id"], message.text)
-    if get_do_info(res):
-        res = get_do_info(res)
+        data["id"] = get_key(data["id"], message.text)
+    if get_do_info(data["id"]):
+        res = get_do_info(data["id"])
         if data["state"] == "ACTIVE":
             keyb = kb.completion_kb()
         else:
@@ -126,7 +125,8 @@ async def view_do(message: types.Message, state: FSMContext, kb = Keyboard()):
             message.from_user.id,
             f"<b>{res[0]}</b>\n\n"
             f"Дата: {res[1]}\n\n"
-            f"Время: {'Не задано' if res[2] == '' else res[2]}",
+            f"Время: {'Не задано' if res[2] == '' else res[2]}"
+            f"",
             reply_markup=keyb
         )
     else:

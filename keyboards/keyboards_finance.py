@@ -7,7 +7,15 @@ class Keyboard_Finance():
     
     def finance_kb(self):
         keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-        btns = ["Доход", "Расход", "Доходы за период", "Расходы за период", "На главную"]
+        btns = [
+            "Доход", 
+            "Расход", 
+            "Доходы за период", 
+            "Расходы за период", 
+            "Доходы по категории",
+            "Расходы по категории",
+            "На главную",
+            ]
         keyboard.add(*btns)
         return keyboard
     
