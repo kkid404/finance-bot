@@ -6,3 +6,5 @@ from states.add_do import AddDoStorage
 from states.chek_do import ChekDoStorage
 from states.edit_date_do import DateStorage
 from states.category_finance import CategoryStorage
+from states.select_category_income import CategoryIncomeSelect
+from states.select_category_expenses import CategoryExpensesSelect

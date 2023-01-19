@@ -18,3 +18,13 @@ def add_income(sum, date, user, category):
 def select_income(date_to, date_from, user):
     res = select((i.sum)for i in Income if between(i.date, date_to, date_from) and i.user == user)
     return res.sum()
+
+@db_session
+def select_category(name, date_to, date_from, user):
+    res = select((i.sum)
+    for i in Income 
+    if between(i.date, date_to, date_from) 
+    and i.user == user
+    and i.category == name
+    )
+    return res.sum()

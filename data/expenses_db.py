@@ -25,3 +25,13 @@ def select_expenses(date_to, date_from, user):
         sum.append(res['sum'])
     res = list(zip(names, sum))
     return {"sum" : summary_expenses, "value" : res}
+
+@db_session
+def select_category_expenses(name, date_to, date_from, user):
+    res = select((i.sum)
+    for i in Expenses 
+    if between(i.date, date_to, date_from) 
+    and i.user == user
+    and i.category == name
+    )
+    return res.sum()

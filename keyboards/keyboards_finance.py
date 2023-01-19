@@ -3,7 +3,7 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardBut
 from data import get_category
 from keyboards.keyboard import Keyboard
 
-class Keyboard_Finance():
+class Keyboard_Finance(Keyboard):
     
     def finance_kb(self):
         keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
