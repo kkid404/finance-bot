@@ -3,7 +3,7 @@ from aiogram.dispatcher.filters.builtin import CommandStart
 from aiogram.dispatcher import FSMContext
 
 from loader import dp, bot
-from keyboards import Keyboard
+from keyboards import Keyboard, Keyboard_Finance, Keyboards_do
 
 @dp.message_handler(CommandStart())
 async def start(message: types.Message, kb = Keyboard()):
@@ -14,7 +14,7 @@ async def start(message: types.Message, kb = Keyboard()):
         )
 
 @dp.message_handler(text="Финансы")
-async def start(message: types.Message, kb = Keyboard()):
+async def start(message: types.Message, kb = Keyboard_Finance()):
     await bot.send_message(
         message.from_user.id,
         "Здесь можно добавить и посчитать расходы/доходы.",
@@ -22,7 +22,7 @@ async def start(message: types.Message, kb = Keyboard()):
         )
 
 @dp.message_handler(text="Дела")
-async def start(message: types.Message, kb = Keyboard()):
+async def start(message: types.Message, kb = Keyboards_do()):
     await bot.send_message(
         message.from_user.id,
         "Здесь можно добавить и посмотреть дела.",

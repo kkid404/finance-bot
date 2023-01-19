@@ -26,14 +26,16 @@ def add_time(id, time):
 def get_do_names(date, user, state):
     tasks = Do.select(lambda d: d.user == user and d.date == date and d.state == state)
     names = []
+    ids = []
     for task in tasks:
         res = task.to_dict()
         names.append(res["name"])
-    return names
+        ids.append(res["id"])
+    return {ids : names}
 
 @db_session
-def get_do_info(name, date):
-    do = select((d.name, d.date, d.time) for d in Do if d.name == name and d.date == str(date)).get()
+def get_do_info(id):
+    do = select((d.name, d.date, d.time) for d in Do if d.id == id).get()
     return do
 
 @db_session

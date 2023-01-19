@@ -2,7 +2,7 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 
 from loader import dp, bot
-from keyboards import Keyboard
+from keyboards import Keyboards_do as Keyboard
 from data import edit_date_do
 from aiogram_calendar import simple_cal_callback, SimpleCalendar
 from states import DateStorage
