@@ -3,7 +3,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram_calendar import simple_cal_callback, SimpleCalendar
 
 from loader import dp, bot
-from keyboards import Keyboard
+from keyboards import Keyboard_Finance as Keyboard
 from states import ExpensesPeriodStorage
 from data import select_expenses
 

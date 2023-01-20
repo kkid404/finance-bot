@@ -58,15 +58,22 @@ async def chek_date_do(message: types.Message, state: FSMContext, kb = Keyboard(
         date = str(datetime.now().date())
         date_obj = dtparser.parse(date)
         date_obj -= timedelta(days=1)
+    elif message.text == "Выбрать дату":
+        await bot.send_message(
+            message.from_user.id,
+            "Выбери дату: ",
+            reply_markup= await SimpleCalendar().start_calendar()
+        )
+        await ChekDoStorage.next()
         
-    if len(list(get_do_names(date_obj, message.from_user.id, data['state']).values())) != 0:
+    if len(list(get_do_names(str(date_obj), message.from_user.id, data['state']).values())) != 0:
         await bot.send_message(
             message.from_user.id,
             f"Дела на {message.text}: ",
             reply_markup=kb.do_kb(date_obj, data['state'], message.from_user.id)
         )
         async with state.proxy() as data:
-            data['date'] = date_obj
+            data['date'] = str(date_obj)
             data["id"] = get_do_names(data['date'], message.from_user.id, data["state"])
         await ChekDoStorage.name.set()
     else:
@@ -77,13 +84,7 @@ async def chek_date_do(message: types.Message, state: FSMContext, kb = Keyboard(
         )
         await state.finish()
     
-    if message.text == "Выбрать дату":
-        await bot.send_message(
-            message.from_user.id,
-            "Выбери дату: ",
-            reply_markup= await SimpleCalendar().start_calendar()
-        )
-        await ChekDoStorage.next()
+
 
 @dp.callback_query_handler(simple_cal_callback.filter(), state=ChekDoStorage.date_from)
 async def get_date_do(
