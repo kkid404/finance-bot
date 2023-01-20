@@ -10,12 +10,14 @@ from aiogram_calendar import simple_cal_callback, SimpleCalendar
 from data import add_expenses
 
 @dp.message_handler(text="Расход")
-async def expenses(message: types.Message, kb = Keyboard()):
-    await bot.send_message(
+async def expenses(message: types.Message, state: FSMContext, kb = Keyboard()):
+    one_message = await bot.send_message(
         message.from_user.id,
         "Введи сколько потрачено денег: ",
         reply_markup=kb.back_kb()
     )
+    async with state.proxy() as data:
+        data["one_message"] = one_message["message_id"]
     await ExpensesStorage.name.set()
 
 @dp.message_handler(state=ExpensesStorage.name)

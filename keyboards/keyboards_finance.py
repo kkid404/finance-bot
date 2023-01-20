@@ -14,9 +14,10 @@ class Keyboard_Finance(Keyboard):
             "Расходы за период", 
             "Доходы по категории",
             "Расходы по категории",
-            "На главную",
             ]
-        keyboard.add(*btns)
+        btn1 = KeyboardButton("Добавить категорию")
+        btn2 = KeyboardButton("На главную")
+        keyboard.add(*btns).add(btn1).add(btn2)
         return keyboard
     
     def settings_expenses(self):
@@ -39,10 +40,20 @@ class Keyboard_Finance(Keyboard):
     
     def category_finance(self, id):
         keyboard = InlineKeyboardMarkup(row_width=1)
-        button = InlineKeyboardButton("Добавить категорию", callback_data="add_category")
-        keyboard.add(button)
         btns = get_category(id)
         for btn in btns:
             button = InlineKeyboardButton(btn, callback_data=btn)
             keyboard.add(button)
+        button = InlineKeyboardButton("Назад", callback_data="back_to_finance")
+        keyboard.add(button)
+        return keyboard
+
+    def category_expenses(self, id):
+        keyboard = InlineKeyboardMarkup(row_width=1)
+        btns = get_category(id)
+        for btn in btns:
+            button = InlineKeyboardButton(btn, callback_data=btn)
+            keyboard.add(button)
+        button = InlineKeyboardButton("Назад", callback_data="back_to_expenses")
+        keyboard.add(button)
         return keyboard

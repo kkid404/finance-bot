@@ -13,7 +13,7 @@ async def select_income_category(message: types.Message, state: FSMContext, kb =
     message_text = await bot.send_message(
         message.from_user.id,
         "Выбери категорию:",
-        reply_markup=kb.category_finance(message.from_user.id)
+        reply_markup=kb.category_expenses(message.from_user.id)
     )
     async with state.proxy() as data:
         data["message"] = message_text["message_id"]

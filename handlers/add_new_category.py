@@ -7,27 +7,25 @@ from keyboards import Keyboard_Finance as Keyboard
 from states import ExpensesStorage, CategoryStorage
 from data import select_expenses, add_category
 
-@dp.callback_query_handler(text="add_category", state="*")
+@dp.message_handler(text="Добавить категорию", state="*")
 async def add_new_category(callback: types.CallbackQuery, state: FSMContext, kb = Keyboard()):
-    async with state.proxy() as data:
-        pass
-    await bot.edit_message_text(
-        "Напиши название новой категории: ",
+    message_text = await bot.send_message(
         callback.from_user.id,
-        data['message'],
-        
+        "Напиши название новой категории: ",
+        reply_markup=kb.back_kb()   
     )
+    async with state.proxy() as data:
+        data["message"] = message_text["message_id"]
     await CategoryStorage.name.set()
 
-@dp.message_handler(state=CategoryStorage.name)
+@dp.message_handler(state=[CategoryStorage.name])
 async def category_name(message: types.Message, state: FSMContext, kb = Keyboard()):
     async with state.proxy() as data:
         data['category_name'] = message.text
     add_category(data["category_name"], message.from_user.id)
-    await bot.edit_message_text(
-        "Выберите категорию: ",
-        message.from_user.id,
-        data['message'],
-        reply_markup=kb.category_finance(message.from_user.id)
-    )
-    await bot.delete_message(message.from_user.id, message.message_id)
+    await bot.send_message(
+            message.from_user.id,
+            "Категория добавлена",
+            reply_markup=kb.finance_kb() 
+        )
+    await state.finish()

@@ -29,7 +29,7 @@ async def add_category_func(callback: types.CallbackQuery, state: FSMContext, kb
         "Выберите категорию: ",
         callback.from_user.id,
         data['message'],
-        reply_markup=kb.category_finance(callback.from_user.id)
+        reply_markup=kb.category_expenses(callback.from_user.id)
     )
 
 @dp.callback_query_handler(state=[ExpensesStorage, CategoryStorage])
