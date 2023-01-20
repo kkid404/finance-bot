@@ -5,7 +5,7 @@ from aiogram_calendar import simple_cal_callback, SimpleCalendar
 from loader import dp, bot
 from keyboards import Keyboard_Finance as Keyboard
 from data import get_category, add_expenses
-from states import ExpensesStorage
+from states import ExpensesStorage, CategoryStorage
 
 @dp.callback_query_handler(text="save_expenses", state="*")
 async def save_expenses(callback: types.CallbackQuery, state: FSMContext, kb = Keyboard()):
@@ -32,7 +32,7 @@ async def add_category_func(callback: types.CallbackQuery, state: FSMContext, kb
         reply_markup=kb.category_finance(callback.from_user.id)
     )
 
-@dp.callback_query_handler(state=ExpensesStorage)
+@dp.callback_query_handler(state=[ExpensesStorage, CategoryStorage])
 async def set_category(callback: types.CallbackQuery, state: FSMContext, kb = Keyboard()):
     res = callback["data"]
     if res in get_category(callback.from_user.id):
