@@ -30,6 +30,7 @@ async def set_date_do(
     selected, date = await SimpleCalendar().process_selection(callback, callback_data)
     async with state.proxy() as data:
         data['date'] = date.strftime("%Y-%m-%d")
+
     message = data['message'].split("\n")
     await bot.delete_message(
         callback.from_user.id,
@@ -40,5 +41,5 @@ async def set_date_do(
         f"Дело перенесено!",
         reply_markup= kb.start_kb()
     )
-    Do_Service.edit_date(data['date'], message[0])
+    Do_Service.edit_date(data['date'], data['id'])
     await state.finish()

@@ -44,6 +44,6 @@ class Do_Service(db.Entity):
         delete(d for d in Do if d.id == id and d.state == "ACTIVE")
 
     @db_session
-    def edit_date(date, name):
-        do = Do.get(name=name, state="ACTIVE")
+    def edit_date(date, id):
+        do = Do.get(id=id, state="ACTIVE")
         do.date = date
