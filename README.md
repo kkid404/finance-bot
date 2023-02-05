@@ -66,8 +66,8 @@ python main.py
 
 <hr>
 <h2>Links to framework documentation</h2>
-<h3 href="https://docs.aiogram.dev/en/latest/"><a>Aiogram</a></h3>
-<h3 href="https://docs.ponyorm.org/"><a>Pony ORM</a></h3>
+<h3><a href="https://docs.aiogram.dev/en/latest/">Aiogram</a></h3>
+<h3><a href="https://docs.ponyorm.org/">Pony ORM</a></h3>
 
 <hr>
 <h2>Other</h2>
