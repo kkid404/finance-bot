@@ -5,10 +5,8 @@ from aiogram.dispatcher import FSMContext
 
 from loader import dp, bot
 from keyboards import Keyboards_do as Keyboard
-from data import add_do, add_time
 from states import AddDoStorage
-from aiogram_calendar import simple_cal_callback, SimpleCalendar
-from aiogram.utils.exceptions import MessageCantBeEdited
+from data import Do_Service
 
 @dp.message_handler(text="Добавить запись")
 async def add_do_handler(message: types.Message, kb = Keyboard()):
@@ -39,9 +37,9 @@ async def add_do_name(message: types.Message, state: FSMContext, kb = Keyboard()
 async def save_do(callback: types.CallbackQuery, state: FSMContext, kb = Keyboard()):
     async with state.proxy() as data:
         pass
-    res = add_do(data['name'], str(data['date']), "ACTIVE", callback.from_user.id)
+    res = Do_Service.add(data['name'], str(data['date']), "ACTIVE", callback.from_user.id)
     if 'time' in data:
-        add_time(res, data['time'])
+        Do_Service.set_time(res, data['time'])
     await bot.delete_message(
         callback.from_user.id, 
         data['message'])

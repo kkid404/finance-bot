@@ -1,7 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
-from data import set_state, del_do
+from data import Do_Service
 from loader import dp, bot
 from keyboards import Keyboard
 
@@ -12,7 +12,7 @@ async def do_done(callback_query: types.CallbackQuery, state: FSMContext, kb = K
         pass
     print(data)
     if states == 'DONE':
-        set_state(states, data["id"])
+        Do_Service.set_state(states, data["id"])
     await bot.delete_message(callback_query.from_user.id,callback_query.message.message_id)
     await bot.send_message(
         callback_query.from_user.id,
@@ -20,5 +20,5 @@ async def do_done(callback_query: types.CallbackQuery, state: FSMContext, kb = K
         reply_markup=kb.start_kb()
     )
     if states == 'DELETE':
-        del_do(data["id"])
+        Do_Service.delete(data["id"])
     await state.finish()

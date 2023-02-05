@@ -1,6 +1,6 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
 
-from data import get_do_names, get_category
+from data import Do_Service
 from keyboards.keyboard import Keyboard
 
 class Keyboards_do(Keyboard):
@@ -12,7 +12,7 @@ class Keyboards_do(Keyboard):
 
     def date_kb(self):
         keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=3)
-        btns = ["Вчера", "Сегодня", "Завтра"]
+        btns = ["Вчера", "Сегодня", "Завтра", "Все невыполненные"]
         btn_date = KeyboardButton("Выбрать дату")
         btn_back = KeyboardButton("Назад")
         keyboard.add(*btns).add(btn_date).add(btn_back)
@@ -26,7 +26,7 @@ class Keyboards_do(Keyboard):
 
     def do_kb(self, date, state, id):
         keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-        btns = get_do_names(date, id, state)
+        btns = Do_Service.get_names(date, id, state)
         btn2 = KeyboardButton("Назад")
         keyboard.add(*list(btns.values()), btn2)
         return keyboard

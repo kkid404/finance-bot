@@ -1,12 +1,13 @@
+from datetime import datetime
+
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram_calendar import simple_cal_callback, SimpleCalendar
 
 from loader import dp, bot
 from keyboards import Keyboard_Finance as Keyboard
-from data import select_category_expenses
 from states import CategoryExpensesSelect
-from datetime import datetime
+from data import Expenses_Service
 
 @dp.message_handler(text="Расходы по категории")
 async def select_income_category(message: types.Message, state: FSMContext, kb = Keyboard()):
@@ -60,7 +61,7 @@ async def process_simple_cal(
     async with state.proxy() as data:
             data['date_from'] = datetime.strftime(date, "%Y-%m-%d")
     if selected:
-        sum = select_category_expenses(data['name'], data['date_to'], data['date_from'], callback.from_user.id)
+        sum = Expenses_Service.get_category(data['name'], data['date_to'], data['date_from'], callback.from_user.id)
         await bot.edit_message_text(
             f'<b>{data["name"]}</b>\n'
             f'Сумма расходов за период:\n'

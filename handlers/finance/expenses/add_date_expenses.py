@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
@@ -7,7 +5,6 @@ from loader import dp, bot
 from keyboards import Keyboard_Finance as Keyboard
 from states import ExpensesStorage
 from aiogram_calendar import simple_cal_callback, SimpleCalendar
-from data import add_expenses
 
 @dp.callback_query_handler(text="date_expenses", state="*")
 async def add_date(callback: types.CallbackQuery, state: FSMContext):

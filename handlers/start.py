@@ -1,6 +1,5 @@
 from aiogram import types
 from aiogram.dispatcher.filters.builtin import CommandStart
-from aiogram.dispatcher import FSMContext
 
 from loader import dp, bot
 from keyboards import Keyboard, Keyboard_Finance, Keyboards_do

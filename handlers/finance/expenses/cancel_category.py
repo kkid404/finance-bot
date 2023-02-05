@@ -5,8 +5,6 @@ from aiogram.dispatcher import FSMContext
 
 from loader import dp, bot
 from keyboards import Keyboard_Finance as Keyboard
-from states import IncomeStorage
-from aiogram_calendar import simple_cal_callback, SimpleCalendar
 
 @dp.callback_query_handler(text="back_to_expenses", state="*")
 async def cancel_category_expenses(callback: types.CallbackQuery, state: FSMContext, kb = Keyboard()):

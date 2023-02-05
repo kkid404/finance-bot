@@ -5,7 +5,7 @@ from aiogram_calendar import simple_cal_callback, SimpleCalendar
 from loader import dp, bot
 from keyboards import Keyboard_Finance as Keyboard
 from states import ExpensesPeriodStorage
-from data import select_expenses
+from data import Expenses_Service
 
 @dp.message_handler(text="Расходы за период")
 async def expenses(message: types.Message, kb = Keyboard()):
@@ -44,7 +44,7 @@ async def process_simple_cal(
     async with state.proxy() as data:
             data['date_from'] = date.strftime("%Y-%m-%d")
     if selected:
-        res = select_expenses(data['date_to'], data['date_from'], callback_query.from_user.id)
+        res = Expenses_Service.get(data['date_to'], data['date_from'], callback_query.from_user.id)
         string = ''
         for r in res["value"]:
             string+=r[0]+" - "+str(r[1])+" руб."+"\n"

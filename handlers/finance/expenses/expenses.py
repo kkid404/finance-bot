@@ -6,8 +6,6 @@ from aiogram.dispatcher import FSMContext
 from loader import dp, bot
 from keyboards import Keyboard_Finance as Keyboard
 from states import ExpensesStorage
-from aiogram_calendar import simple_cal_callback, SimpleCalendar
-from data import add_expenses
 
 @dp.message_handler(text="Расход")
 async def expenses(message: types.Message, state: FSMContext, kb = Keyboard()):

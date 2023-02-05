@@ -4,8 +4,8 @@ from aiogram_calendar import simple_cal_callback, SimpleCalendar
 
 from loader import dp, bot
 from keyboards import Keyboard_Finance as Keyboard
-from states import ExpensesStorage, CategoryStorage
-from data import select_expenses, add_category
+from states import CategoryStorage
+from data import Category_Service
 
 @dp.message_handler(text="Добавить категорию", state="*")
 async def add_new_category(callback: types.CallbackQuery, state: FSMContext, kb = Keyboard()):
@@ -22,7 +22,7 @@ async def add_new_category(callback: types.CallbackQuery, state: FSMContext, kb 
 async def category_name(message: types.Message, state: FSMContext, kb = Keyboard()):
     async with state.proxy() as data:
         data['category_name'] = message.text
-    add_category(data["category_name"], message.from_user.id)
+    Category_Service.add(data["category_name"], message.from_user.id)
     await bot.send_message(
             message.from_user.id,
             "Категория добавлена",

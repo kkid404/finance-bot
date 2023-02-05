@@ -5,10 +5,7 @@ from aiogram.dispatcher import FSMContext
 
 from loader import dp, bot
 from keyboards import Keyboards_do as Keyboard
-from data import add_do, add_time
 from states import AddDoStorage
-from aiogram_calendar import simple_cal_callback, SimpleCalendar
-from aiogram.utils.exceptions import MessageCantBeEdited
 
 @dp.callback_query_handler(text="time", state="*")
 async def add_time_do(callback : types.CallbackQuery, state: FSMContext , kb = Keyboard()):

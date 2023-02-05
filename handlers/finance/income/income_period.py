@@ -4,7 +4,7 @@ from aiogram_calendar import simple_cal_callback, SimpleCalendar
 
 from loader import dp, bot
 from keyboards import Keyboard_Finance as Keyboard
-from data import select_income
+from data import Income_Service
 from states import IncomePeriodStorage
 from datetime import datetime
 
@@ -45,7 +45,7 @@ async def process_simple_cal(
     async with state.proxy() as data:
             data['date_from'] = datetime.strftime(date, "%Y-%m-%d")
     if selected:
-        sum = select_income(data['date_to'], data['date_from'], callback_query.from_user.id)
+        sum = Income_Service.get(data['date_to'], data['date_from'], callback_query.from_user.id)
         await bot.send_message(
             callback_query.from_user.id,
             f'Сумма дохода за период:\n{data["date_to"]} - {data["date_from"]}\n{sum} рублей!',

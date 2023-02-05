@@ -7,7 +7,7 @@ from aiogram.dispatcher import FSMContext
 from loader import dp, bot
 from keyboards import Keyboards_do as Keyboard
 from states import ChekDoStorage
-from data import get_do_names, get_do_info
+from data import Do_Service
 from aiogram_calendar import simple_cal_callback, SimpleCalendar
 from utils import get_key
 
@@ -67,7 +67,9 @@ async def chek_date_do(message: types.Message, state: FSMContext, kb = Keyboard(
             reply_markup= await SimpleCalendar().start_calendar()
         )
         await ChekDoStorage.next()
-    if len(list(get_do_names(date_obj, message.from_user.id, data['state']).values())) != 0:
+    
+    
+    if len(list(Do_Service.get_names(date_obj, message.from_user.id, data['state']).values())) != 0:
         await bot.send_message(
             message.from_user.id,
             f"Дела на {message.text}: ",
@@ -75,7 +77,7 @@ async def chek_date_do(message: types.Message, state: FSMContext, kb = Keyboard(
         )
         async with state.proxy() as data:
             data['date'] = date_obj
-            data["id"] = get_do_names(data['date'], message.from_user.id, data["state"])
+            data["id"] = Do_Service.get_names(data['date'], message.from_user.id, data["state"])
         await ChekDoStorage.name.set()
     else:
         await bot.send_message(
@@ -97,7 +99,7 @@ async def get_date_do(
     selected, date = await SimpleCalendar().process_selection(callback_query, callback_data)
     async with state.proxy() as data:
         data['date'] = date.strftime("%Y-%m-%d")
-    if len(get_do_names(data['date'], callback_query.from_user.id, data['state'])) != 0:  
+    if len(Do_Service.get_names(data['date'], callback_query.from_user.id, data['state'])) != 0:  
         
         await bot.send_message(
             callback_query.from_user.id,
@@ -117,8 +119,8 @@ async def get_date_do(
 async def view_do(message: types.Message, state: FSMContext, kb = Keyboard()):
     async with state.proxy() as data:
         data["id"] = get_key(data["id"], message.text)
-    if get_do_info(data["id"]):
-        res = get_do_info(data["id"])
+    if Do_Service.get_info(data["id"]):
+        res = Do_Service.get_info(data["id"])
         if data["state"] == "ACTIVE":
             keyb = kb.completion_kb()
         else:

@@ -1,6 +1,6 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
 
-from data import get_category
+from data import Category_Service
 from keyboards.keyboard import Keyboard
 
 class Keyboard_Finance(Keyboard):
@@ -40,7 +40,7 @@ class Keyboard_Finance(Keyboard):
     
     def category_finance(self, id):
         keyboard = InlineKeyboardMarkup(row_width=1)
-        btns = get_category(id)
+        btns = Category_Service.get(id)
         for btn in btns:
             button = InlineKeyboardButton(btn, callback_data=btn)
             keyboard.add(button)
@@ -50,7 +50,7 @@ class Keyboard_Finance(Keyboard):
 
     def category_expenses(self, id):
         keyboard = InlineKeyboardMarkup(row_width=1)
-        btns = get_category(id)
+        btns = Category_Service.get(id)
         for btn in btns:
             button = InlineKeyboardButton(btn, callback_data=btn)
             keyboard.add(button)
