@@ -47,3 +47,15 @@ class Do_Service(db.Entity):
     def edit_date(date, id):
         do = Do.get(id=id, state="ACTIVE")
         do.date = date
+
+    @db_session
+    def get_all_names(state, user) -> dict:
+        tasks = Do.select(lambda d: d.state == state and d.user == str(user))
+        names = []
+        ids = []
+        for task in tasks:
+            res = task.to_dict()
+            names.append(res["name"])
+            ids.append(res["id"])
+        res = dict(zip(ids, names))
+        return res

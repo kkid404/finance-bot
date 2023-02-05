@@ -48,25 +48,28 @@ async def chek_date_do(message: types.Message, state: FSMContext, kb = Keyboard(
     async with state.proxy() as data:
         pass
     
-    if message.text == "Сегодня":
-        date_obj = str(datetime.now().date())
-    elif message.text == "Завтра":
-        date = str(datetime.now().date())
-        date_obj = dtparser.parse(date)
-        date_obj += timedelta(days=1)
-        date_obj = str(date_obj)[:10]
-    elif message.text == "Вчера":
-        date = str(datetime.now().date())
-        date_obj = dtparser.parse(date)
-        date_obj -= timedelta(days=1)
-        date_obj = str(date_obj)[:10]
-    elif message.text == "Выбрать дату":
-        await bot.send_message(
-            message.from_user.id,
-            "Выбери дату: ",
-            reply_markup= await SimpleCalendar().start_calendar()
-        )
-        await ChekDoStorage.next()
+    match message.text:
+        case "Сегодня":
+            date_obj = str(datetime.now().date())
+        case "Завтра":
+            date = str(datetime.now().date())
+            date_obj = dtparser.parse(date)
+            date_obj += timedelta(days=1)
+            date_obj = str(date_obj)[:10]        
+        case "Вчера":   
+            date = str(datetime.now().date())
+            date_obj = dtparser.parse(date)
+            date_obj -= timedelta(days=1)
+            date_obj = str(date_obj)[:10]
+        case "Выбрать дату": 
+            await bot.send_message(
+                message.from_user.id,
+                "Выбери дату: ",
+                reply_markup= await SimpleCalendar().start_calendar()
+            )
+        
+    await ChekDoStorage.next()
+
     
     
     if len(list(Do_Service.get_names(date_obj, message.from_user.id, data['state']).values())) != 0:

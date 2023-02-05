@@ -24,9 +24,12 @@ class Keyboards_do(Keyboard):
         keyboard.add(*btns)
         return keyboard
 
-    def do_kb(self, date, state, id):
+    def do_kb(self, date: None, state, id):
         keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-        btns = Do_Service.get_names(date, id, state)
+        if date == None:
+            btns = Do_Service.get_all_names(state)
+        else:    
+            btns = Do_Service.get_names(date, id, state)        
         btn2 = KeyboardButton("Назад")
         keyboard.add(*list(btns.values()), btn2)
         return keyboard
