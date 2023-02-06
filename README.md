@@ -1,7 +1,7 @@
 <h1 align="center">Hi there, I'm <a href="https://github.com/kkid404" target="_blank">Andrew</a> 
 <img src="https://github.com/blackcater/blackcater/raw/main/images/Hi.gif" height="32"/></h1>
 
-<h3 align="center">Backebnd developer</h3>
+<h3 align="center">Backend developer</h3>
 
 <br>
 
@@ -39,9 +39,8 @@ Install all dependencies from the requirements.txt file with the command:
 pip install -r requirements.txt
 ```
 <p>
-Remove the word example from the setting.example.ini file name and put the bot token there, which you can get here: <a>
-https://t.me/BotFather
-</a></p>
+Remove the word example from the setting.example.ini file name and put the bot token there, which you can get here: 
+</p><a>https://t.me/BotFather</a>
 <p>
 Enter the bot's token and data for connecting to the database in the settings.ini file
 </p>
@@ -66,11 +65,11 @@ python main.py
 
 <hr>
 <h2>Links to framework documentation</h2>
-<h3><a href="https://docs.aiogram.dev/en/latest/">Aiogram</a></h3>
-<h3><a href="https://docs.ponyorm.org/">Pony ORM</a></h3>
+<h3><a href="https://docs.aiogram.dev/en/latest/" target="_blank">Aiogram</a></h3>
+<h3><a href="https://docs.ponyorm.org/" target="_blank">Pony ORM</a></h3>
 
 <hr>
 <h2>Other</h2>
-<h3><a href="https://t.me/secretartattooBot">Link to working copy</a></h3>
-<h3><a href="https://t.me/kkidy">Contact me on Telegram</a></h3>
+<h3><a href="https://t.me/secretartattooBot" target="_blank">Link to working copy</a></h3>
+<h3><a href="https://t.me/kkidy" target="_blank">Contact me on Telegram</a></h3>
 
