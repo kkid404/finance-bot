@@ -67,29 +67,48 @@ async def chek_date_do(message: types.Message, state: FSMContext, kb = Keyboard(
                 "Выбери дату: ",
                 reply_markup= await SimpleCalendar().start_calendar()
             )
+            await ChekDoStorage.next()
+        case "Все невыполненные":
+            date_obj= None
         
-    await ChekDoStorage.next()
+    
 
     
-    
-    if len(list(Do_Service.get_names(date_obj, message.from_user.id, data['state']).values())) != 0:
-        await bot.send_message(
-            message.from_user.id,
-            f"Дела на {message.text}: ",
-            reply_markup=kb.do_kb(date_obj, data['state'], message.from_user.id)
-        )
-        async with state.proxy() as data:
-            data['date'] = date_obj
-            data["id"] = Do_Service.get_names(data['date'], message.from_user.id, data["state"])
-        await ChekDoStorage.name.set()
+    if date_obj == None:
+        if len(Do_Service.get_all_names(data['state'], message.from_user.id).values()) != 0:
+            await bot.send_message(
+                message.from_user.id,
+                "Невыполненные дела:",
+                reply_markup=kb.do_kb(state=data['state'], id=message.from_user.id)
+            )
+            async with state.proxy() as data:
+                data['id'] = Do_Service.get_all_names(data['state'], message.from_user.id)
+                await ChekDoStorage.name.set()
+        else:
+            await bot.send_message(
+                message.from_user.id,
+                "Невыполненных дел нет",
+                reply_markup=kb.do_first_kb()
+            )
     else:
-        await bot.send_message(
-            message.from_user.id,
-            f"На {message.text} дел нет",
-            reply_markup=kb.start_kb()
-        )
-        await state.finish()
-    
+        if len(list(Do_Service.get_names(date_obj, message.from_user.id, data['state']).values())) != 0:
+            await bot.send_message(
+                message.from_user.id,
+                f"Дела на {message.text}: ",
+                reply_markup=kb.do_kb(data['state'], message.from_user.id, date_obj)
+            )
+            async with state.proxy() as data:
+                data['date'] = date_obj
+                data["id"] = Do_Service.get_names(data['date'], message.from_user.id, data["state"])
+            await ChekDoStorage.name.set()
+        else:
+            await bot.send_message(
+                message.from_user.id,
+                f"На {message.text} дел нет",
+                reply_markup=kb.start_kb()
+            )
+            await state.finish()
+        
 
 
 @dp.callback_query_handler(simple_cal_callback.filter(), state=ChekDoStorage.date_from)
@@ -107,7 +126,7 @@ async def get_date_do(
         await bot.send_message(
             callback_query.from_user.id,
             f"Дела на {data['date']}",
-            reply_markup=kb.do_kb(data['date'], data['state'], callback_query.from_user.id)
+            reply_markup=kb.do_kb(data['state'], callback_query.from_user.id, data['date'])
         )
     else:
         await bot.send_message(

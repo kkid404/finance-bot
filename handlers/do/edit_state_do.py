@@ -10,7 +10,6 @@ async def do_done(callback_query: types.CallbackQuery, state: FSMContext, kb = K
     states = dict(callback_query)['data']
     async with state.proxy() as data:
         pass
-    print(data)
     if states == 'DONE':
         Do_Service.set_state(states, data["id"])
     await bot.delete_message(callback_query.from_user.id,callback_query.message.message_id)

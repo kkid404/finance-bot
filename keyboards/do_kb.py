@@ -24,10 +24,10 @@ class Keyboards_do(Keyboard):
         keyboard.add(*btns)
         return keyboard
 
-    def do_kb(self, date: None, state, id):
+    def do_kb(self, state, id, date = None):
         keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
         if date == None:
-            btns = Do_Service.get_all_names(state)
+            btns = Do_Service.get_all_names(state, id)
         else:    
             btns = Do_Service.get_names(date, id, state)        
         btn2 = KeyboardButton("Назад")
