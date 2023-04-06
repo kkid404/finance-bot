@@ -11,31 +11,35 @@
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
-
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
 <h2>Project Description</h2>
 
 <p>Telegram bot written in python using the aiogram framework. The main functions are recording income, expenses and recording and deleting cases.</p>
 <hr>
 <h3>The finance block includes: </h3>
-<li> Adding expenses and income</li>
-<li> Adding categories to expenses and income</li>
-<li> Selecting expenses and income by date</li>
-<li> Selecting expenses and income by category</li>
+<li>Adding expenses and income</li>
+<li>Adding categories to expenses and income</li>
+<li>Selecting expenses and income by date</li>
+<li>Selecting expenses and income by category</li>
 <br>
 <h3>To-do block includes: </h3>
-<li> Adding and removing do</li>
-<li> Selecting do by date and state</li>
+<li>Adding and removing do</li>
+<li>Selecting do by date and state</li>
+<li>Postponement of do</li>
 <hr>
 
 <h2>Project Launch </h2>
 
+<p>
+Remove the word dev from the settings.dev.ini name and fill in all lines
+</p>
 
 <p>
 Install all dependencies from the requirements.txt file with the command:
 </p>
 
-``` pyton
+```bash
 pip install -r requirements.txt
 ```
 <p>
@@ -59,8 +63,36 @@ db = Database(**settings['sqlite'])
 ```
 Run the bot with the command:
 
-```python
+```bash
 python main.py
+```
+<hr>
+<h2>Installation from a docker</h2>
+<p>
+    To install via Docker, run the following commands:
+</p>
+
+```bash
+sudo docker build -t finance_bot .
+```
+
+```bash
+sudo docker run --network=host -d --name finance_bot finance_bot
+```
+<p>
+Use the command to start the container:
+</p>
+
+```bash
+sudo docker start finance_bot
+```
+
+<p>
+Use the command to stop the container:
+</p>
+
+```bash
+sudo docker stop finance_bot
 ```
 
 <hr>
