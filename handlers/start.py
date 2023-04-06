@@ -2,7 +2,7 @@ from aiogram import types
 from aiogram.dispatcher.filters.builtin import CommandStart
 
 from loader import dp, bot
-from keyboards import Keyboard, Keyboard_Finance, Keyboards_do
+from keyboards import Keyboard, Keyboard_Finance, Keyboards_Do
 
 @dp.message_handler(CommandStart())
 async def start(message: types.Message, kb = Keyboard()):
@@ -21,7 +21,7 @@ async def start(message: types.Message, kb = Keyboard_Finance()):
         )
 
 @dp.message_handler(text="Дела")
-async def start(message: types.Message, kb = Keyboards_do()):
+async def start(message: types.Message, kb = Keyboards_Do()):
     await bot.send_message(
         message.from_user.id,
         "Здесь можно добавить и посмотреть дела.",

@@ -5,7 +5,7 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 
 from loader import dp, bot
-from keyboards import Keyboards_do as Keyboard
+from keyboards import Keyboards_Do as Keyboard
 from states import ChekDoStorage
 from data import Do_Service
 from aiogram_calendar import simple_cal_callback, SimpleCalendar
