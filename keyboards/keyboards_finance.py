@@ -8,16 +8,32 @@ class Keyboard_Finance(Keyboard):
     def finance_kb(self) -> ReplyKeyboardMarkup:
         btns = [
             "Доход", 
-            "Расход", 
-            "Доходы за период", 
-            "Расходы за период", 
-            "Доходы по категории",
-            "Расходы по категории",
+            "Расход",
+            "Категории",
+            "Период",
             ]
         keyboard = self._keyboard(btns)
-        btn1 = KeyboardButton("Добавить категорию")
         btn2 = KeyboardButton("На главную")
-        keyboard.add(btn1).add(btn2)
+        keyboard.add(btn2)
+        return keyboard
+    
+    def finance_category_kb(self) -> ReplyKeyboardMarkup:
+        keyboard = self._keyboard([
+            "Доходы по категории",
+            "Расходы по категории",
+            "Добавить категорию",
+        ])
+        btn2 = KeyboardButton("На главную")
+        keyboard.add(btn2)
+        return keyboard
+    
+    def finance_period_kb(self) -> ReplyKeyboardMarkup:
+        keyboard = self._keyboard([
+            "Доходы за период", 
+            "Расходы за период", 
+        ])
+        btn2 = KeyboardButton("На главную")
+        keyboard.add(btn2)
         return keyboard
     
     def settings_expenses(self) -> InlineKeyboardMarkup:

@@ -27,3 +27,4 @@ async def start(message: types.Message, kb = Keyboards_Do()):
         "Здесь можно добавить и посмотреть дела.",
         reply_markup=kb.do_first_kb()
         )
+
